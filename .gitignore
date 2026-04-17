@@ -3,6 +3,10 @@
 .env.local
 .env.*.local
 
+# Data files — contain personal financial data
+*.xlsx
+*.csv
+
 # Dependencies
 node_modules/
 
