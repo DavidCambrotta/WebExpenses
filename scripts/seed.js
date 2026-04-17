@@ -6,7 +6,7 @@
  *   npm run seed
  *   (or: node -r dotenv/config scripts/seed.js)
  *
- * Requires .env with VITE_SUPABASE_URL and SUPABASE_SERVICE_KEY
+ * Requires .env with VITE_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY
  */
 
 const { createClient } = require('@supabase/supabase-js')
@@ -14,10 +14,10 @@ const fs = require('fs')
 const path = require('path')
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL
-const SERVICE_KEY  = process.env.SUPABASE_SERVICE_KEY
+const SERVICE_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY
 
 if (!SUPABASE_URL || !SERVICE_KEY) {
-  console.error('Missing VITE_SUPABASE_URL or SUPABASE_SERVICE_KEY in .env')
+  console.error('Missing VITE_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in .env')
   process.exit(1)
 }
 

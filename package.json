@@ -9,10 +9,10 @@
     "seed": "node -r dotenv/config scripts/seed.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.4",
-    "recharts": "^2.13.3",
+    "@supabase/supabase-js": "^2.103.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "recharts": "^2.13.3"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.0",
