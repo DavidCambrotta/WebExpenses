@@ -11,7 +11,7 @@ export function useData() {
     async function fetchAll() {
       try {
         const [expRes, incRes] = await Promise.all([
-          supabase.from('expenses').select('*').order('date'),
+          supabase.from('expenses').select('*').order('date').limit(10000),
           supabase.from('income').select('*').order('year').order('month'),
         ])
         if (expRes.error) throw expRes.error
