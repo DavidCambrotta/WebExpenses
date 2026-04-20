@@ -1,15 +1,24 @@
 import { useState } from 'react'
 import Nav from './components/Nav'
 import Loading from './components/Loading'
+import Login from './pages/Login'
 import Overview from './pages/Overview'
 import Monthly from './pages/Monthly'
 import Categories from './pages/Categories'
 import Compare from './pages/Compare'
 import { useData } from './hooks/useData'
+import { useAuth } from './hooks/useAuth'
 
 export default function App() {
   const [page, setPage] = useState('overview')
+  const session = useAuth()
   const data = useData()
+
+  // session undefined = auth still initialising
+  if (session === undefined) return <Loading />
+
+  // unauthenticated → login screen (no data fetch runs yet)
+  if (session === null) return <Login />
 
   if (data.loading || data.error) {
     return <Loading error={data.error} />
@@ -28,7 +37,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Nav page={page} setPage={setPage} />
+      <Nav page={page} setPage={setPage} session={session} />
       <main className="main">
         {page === 'overview' && <Overview {...pageProps} />}
         {page === 'monthly' && <Monthly {...pageProps} />}
