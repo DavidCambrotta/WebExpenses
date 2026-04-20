@@ -10,14 +10,31 @@ export function useData() {
   useEffect(() => {
     async function fetchAll() {
       try {
-        const [expRes, incRes] = await Promise.all([
-          supabase.from('expenses').select('*').order('date').limit(10000),
-          supabase.from('income').select('*').order('year').order('month'),
-        ])
-        if (expRes.error) throw expRes.error
-        if (incRes.error) throw incRes.error
-        setExpenses(expRes.data || [])
-        setIncome(incRes.data || [])
+        // Paginate to bypass Supabase server-side max_rows cap (default 1000)
+        const PAGE = 1000
+        let allExpenses = []
+        let page = 0
+        while (true) {
+          const { data, error } = await supabase
+            .from('expenses')
+            .select('*')
+            .order('date')
+            .range(page * PAGE, (page + 1) * PAGE - 1)
+          if (error) throw error
+          allExpenses = allExpenses.concat(data)
+          if (data.length < PAGE) break
+          page++
+        }
+
+        const { data: incData, error: incError } = await supabase
+          .from('income')
+          .select('*')
+          .order('year')
+          .order('month')
+        if (incError) throw incError
+
+        setExpenses(allExpenses)
+        setIncome(incData || [])
       } catch (err) {
         setError(err.message)
       } finally {
