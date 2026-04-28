@@ -4,13 +4,29 @@ import {
   CartesianGrid, Tooltip, Legend,
 } from 'recharts'
 import ChartTooltip from '../components/ChartTooltip'
-import { CATEGORIES, CATEGORY_LABELS, CATEGORY_COLORS, YEAR_COLORS, fmt, round2 } from '../lib/constants'
+import {
+  CATEGORIES, VARIABLE_CATEGORIES, FIXED_CATEGORIES,
+  CATEGORY_LABELS, CATEGORY_COLORS, YEAR_COLORS,
+  fmt, round2,
+} from '../lib/constants'
 
-export default function Compare({ years, categoryByYear, yearTotals }) {
+const TYPE_FILTERS = [
+  { id: 'all', label: 'All' },
+  { id: 'variable', label: 'Variable' },
+  { id: 'fixed', label: 'Fixed' },
+]
+
+export default function Compare({ years, categoryByYear, yearTotals, typeByYear }) {
   const [yearA, setYearA] = useState(years?.[0] ?? 2019)
   const [yearB, setYearB] = useState(years?.[years.length - 1] ?? 2021)
+  const [typeFilter, setTypeFilter] = useState('all')
 
-  const barData = CATEGORIES.map((cat) => ({
+  const visibleCategories =
+    typeFilter === 'variable' ? VARIABLE_CATEGORIES :
+    typeFilter === 'fixed'    ? FIXED_CATEGORIES :
+    CATEGORIES
+
+  const barData = visibleCategories.map((cat) => ({
     name: CATEGORY_LABELS[cat],
     cat,
     [yearA]: round2(categoryByYear[yearA]?.[cat]),
@@ -21,7 +37,7 @@ export default function Compare({ years, categoryByYear, yearTotals }) {
     return sumB - sumA
   })
 
-  const tableData = CATEGORIES.map((cat) => {
+  const tableData = visibleCategories.map((cat) => {
     const a = round2(categoryByYear[yearA]?.[cat])
     const b = round2(categoryByYear[yearB]?.[cat])
     const diff = round2(b - a)
@@ -29,8 +45,13 @@ export default function Compare({ years, categoryByYear, yearTotals }) {
     return { cat, name: CATEGORY_LABELS[cat], a, b, diff, pct }
   }).sort((x, y) => Math.abs(y.diff) - Math.abs(x.diff))
 
-  const totalA = round2(yearTotals[yearA] || 0)
-  const totalB = round2(yearTotals[yearB] || 0)
+  const getTotal = (year) => {
+    if (typeFilter === 'all') return round2(yearTotals[year] || 0)
+    return round2(typeByYear[year]?.[typeFilter] || 0)
+  }
+
+  const totalA = getTotal(yearA)
+  const totalB = getTotal(yearB)
   const totalDiff = round2(totalB - totalA)
   const totalPct = totalA > 0 ? ((totalB - totalA) / totalA) * 100 : null
 
@@ -69,6 +90,18 @@ export default function Compare({ years, categoryByYear, yearTotals }) {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="pill-group" style={{ marginBottom: 8 }}>
+        {TYPE_FILTERS.map((f) => (
+          <button
+            key={f.id}
+            className={`pill ${typeFilter === f.id ? 'pill-active' : ''}`}
+            onClick={() => setTypeFilter(f.id)}
+          >
+            {f.label}
+          </button>
+        ))}
       </div>
 
       <div className="stat-grid">
@@ -120,11 +153,11 @@ export default function Compare({ years, categoryByYear, yearTotals }) {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Categoria</th>
+                <th>Category</th>
                 <th className="right">{yearA}</th>
                 <th className="right">{yearB}</th>
-                <th className="right">Diferença</th>
-                <th className="right">Variação %</th>
+                <th className="right">Diff</th>
+                <th className="right">Change %</th>
               </tr>
             </thead>
             <tbody>

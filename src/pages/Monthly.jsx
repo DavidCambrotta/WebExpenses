@@ -4,7 +4,7 @@ import {
   CartesianGrid, Tooltip, Legend,
 } from 'recharts'
 import ChartTooltip from '../components/ChartTooltip'
-import { MONTH_NAMES, CATEGORIES, CATEGORY_LABELS, CATEGORY_COLORS, fmt, round2 } from '../lib/constants'
+import { MONTH_NAMES, CATEGORIES, CATEGORY_LABELS, CATEGORY_COLORS, SUBCATEGORY_LABELS, fmt, round2 } from '../lib/constants'
 
 export default function Monthly({ years, monthlyByYearCategory, rowsByYearMonth }) {
   const [selectedYear, setSelectedYear] = useState(years?.[years.length - 1] ?? 2021)
@@ -92,10 +92,10 @@ export default function Monthly({ years, monthlyByYearCategory, rowsByYearMonth 
               <table className="data-table">
                 <thead>
                   <tr>
-                    <th>Data</th>
-                    <th>Categoria</th>
-                    <th>Descrição</th>
-                    <th className="right">Valor</th>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th className="right">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -108,6 +108,7 @@ export default function Monthly({ years, monthlyByYearCategory, rowsByYearMonth 
                           style={{ background: CATEGORY_COLORS[t.category] + '33', color: CATEGORY_COLORS[t.category] }}
                         >
                           {CATEGORY_LABELS[t.category] ?? t.category}
+                          {t.subcategory ? ` · ${SUBCATEGORY_LABELS[t.subcategory] ?? t.subcategory}` : ''}
                         </span>
                       </td>
                       <td className="muted">{t.description || '—'}</td>

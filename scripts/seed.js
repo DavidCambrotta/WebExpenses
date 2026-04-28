@@ -1,5 +1,5 @@
 /**
- * Seed script — reads Excels/expenses.csv and Excels/income.csv,
+ * Seed script — reads Excels/expenses_v2.csv and Excels/income_v2.csv,
  * clears existing data, and inserts fresh rows into Supabase.
  *
  * Run from project root:
@@ -26,28 +26,42 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY, {
 })
 
 function parseCSV(filePath) {
-  const content = fs.readFileSync(filePath, 'utf-8').replace(/\r/g, '')
+  const raw = fs.readFileSync(filePath)
+  // Strip UTF-16 BOM if present, then decode
+  let content
+  if (raw[0] === 0xFF && raw[1] === 0xFE) {
+    content = raw.slice(2).toString('utf16le')
+  } else if (raw[0] === 0xFE && raw[1] === 0xFF) {
+    content = raw.slice(2).swap16().toString('utf16le')
+  } else {
+    content = raw.toString('utf-8')
+  }
+  content = content.replace(/\r/g, '')
+  // Strip UTF-8 BOM if present
+  if (content.charCodeAt(0) === 0xFEFF) content = content.slice(1)
   const lines   = content.trim().split('\n')
   const headers = lines[0].split(',').map((h) => h.trim())
-  return lines.slice(1).map((line) => {
+  return lines.slice(1).filter(l => l.trim()).map((line) => {
     const values = line.split(',')
     return Object.fromEntries(headers.map((h, i) => [h, (values[i] ?? '').trim()]))
   })
 }
 
 async function seed() {
-  const expensesPath = path.join(__dirname, '../Excels/expenses.csv')
-  const incomePath   = path.join(__dirname, '../Excels/income.csv')
+  const expensesPath = path.join(__dirname, '../Excels/expenses_v2.csv')
+  const incomePath   = path.join(__dirname, '../Excels/income_v2.csv')
 
   // ── Expenses ──
-  console.log('Reading expenses.csv…')
+  console.log('Reading expenses_v2.csv…')
   const rawExpenses = parseCSV(expensesPath)
   const expenseRows = rawExpenses.map((r) => ({
     date:        r.date,
     year:        parseInt(r.year),
     month:       parseInt(r.month),
     day:         parseInt(r.day),
+    type:        r.type || 'variable',
     category:    r.category,
+    subcategory: r.subcategory || null,
     amount:      parseFloat(r.amount),
     description: r.description || null,
   }))
@@ -67,14 +81,14 @@ async function seed() {
   console.log('  expenses done.               ')
 
   // ── Income ──
-  console.log('Reading income.csv…')
+  console.log('Reading income_v2.csv…')
   const rawIncome = parseCSV(incomePath)
   const incomeRows = rawIncome.map((r) => ({
-    year:  parseInt(r.year),
-    month: parseInt(r.month),
-    renda: parseFloat(r.renda),
-    algt:  parseFloat(r.algt),
-    total: parseFloat(r.total),
+    year:           parseInt(r.year),
+    month:          parseInt(r.month),
+    income:         parseFloat(r.income),
+    total_expenses: parseFloat(r.total_expenses),
+    profit:         parseFloat(r.profit),
   }))
 
   console.log(`Upserting ${incomeRows.length} income rows…`)

@@ -1,24 +1,49 @@
+export const VARIABLE_CATEGORIES = [
+  'groceries', 'fuel', 'transport', 'health', 'restaurants',
+  'party', 'vacations', 'cloths', 'tech', 'others',
+]
+
+export const FIXED_CATEGORIES = ['home', 'subscriptions']
+
+export const CATEGORIES = [...VARIABLE_CATEGORIES, ...FIXED_CATEGORIES]
+
 export const CATEGORY_COLORS = {
-  eating_out: '#FF6B6B',
-  fuel: '#4ECDC4',
-  grocery: '#45B7D1',
-  hygiene: '#96CEB4',
-  other: '#C9B8FF',
-  outings: '#DDA0DD',
-  travel: '#F0A500',
+  groceries:     '#45B7D1',
+  fuel:          '#4ECDC4',
+  transport:     '#F0A500',
+  health:        '#96CEB4',
+  restaurants:   '#FF6B6B',
+  party:         '#DDA0DD',
+  vacations:     '#F59E0B',
+  cloths:        '#EC4899',
+  tech:          '#8B5CF6',
+  others:        '#C9B8FF',
+  home:          '#6366F1',
+  subscriptions: '#10B981',
 }
 
 export const CATEGORY_LABELS = {
-  eating_out: 'Alimentação',
-  fuel: 'Combustível',
-  grocery: 'Mercado',
-  hygiene: 'Higiene',
-  other: 'Outros',
-  outings: 'Lazer',
-  travel: 'Transporte',
+  groceries:     'Groceries',
+  fuel:          'Fuel',
+  transport:     'Transport',
+  health:        'Health',
+  restaurants:   'Restaurants',
+  party:         'Party',
+  vacations:     'Vacations',
+  cloths:        'Clothing',
+  tech:          'Tech',
+  others:        'Others',
+  home:          'Home',
+  subscriptions: 'Subscriptions',
 }
 
-export const CATEGORIES = Object.keys(CATEGORY_COLORS)
+export const SUBCATEGORY_LABELS = {
+  rent:      'Rent',
+  utilities: 'Utilities',
+  phone:     'Phone',
+  gym:       'Gym',
+  icloud:    'iCloud',
+}
 
 export const MONTH_NAMES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 

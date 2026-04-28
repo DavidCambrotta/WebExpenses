@@ -53,15 +53,19 @@ export function useData() {
     const yearTotals = {}
     // monthlyTotals: { 2019: { 1: 400, 2: 350, ... }, ... }
     const monthlyTotals = {}
-    // categoryByYear: { 2019: { eating_out: 500, ... }, ... }
+    // categoryByYear: { 2019: { groceries: 500, ... }, ... }
     const categoryByYear = {}
-    // monthlyByYearCategory: { 2019: { 1: { eating_out: 50, ... }, ... }, ... }
+    // monthlyByYearCategory: { 2019: { 1: { groceries: 50, ... }, ... }, ... }
     const monthlyByYearCategory = {}
     // raw rows per year+month for transaction list
     const rowsByYearMonth = {}
+    // typeByYear: { 2019: { variable: 4000, fixed: 1000 }, ... }
+    const typeByYear = {}
+    // subcategoryByYearCategory: { 2019: { home: { rent: X, utilities: Y }, ... }, ... }
+    const subcategoryByYearCategory = {}
 
     expenses.forEach((e) => {
-      const { year, month, category, amount } = e
+      const { year, month, type, category, subcategory, amount } = e
 
       yearTotals[year] = (yearTotals[year] || 0) + amount
 
@@ -79,18 +83,29 @@ export function useData() {
       const key = `${year}-${month}`
       if (!rowsByYearMonth[key]) rowsByYearMonth[key] = []
       rowsByYearMonth[key].push(e)
+
+      if (!typeByYear[year]) typeByYear[year] = {}
+      const t = type || 'variable'
+      typeByYear[year][t] = (typeByYear[year][t] || 0) + amount
+
+      if (subcategory) {
+        if (!subcategoryByYearCategory[year]) subcategoryByYearCategory[year] = {}
+        if (!subcategoryByYearCategory[year][category]) subcategoryByYearCategory[year][category] = {}
+        subcategoryByYearCategory[year][category][subcategory] =
+          (subcategoryByYearCategory[year][category][subcategory] || 0) + amount
+      }
     })
 
-    // incomeByYearMonth: { '2019-1': { renda, algt, total }, ... }
+    // incomeByYearMonth: { '2019-1': { income, total_expenses, profit }, ... }
     const incomeByYearMonth = {}
     income.forEach((r) => {
       incomeByYearMonth[`${r.year}-${r.month}`] = r
     })
 
-    // yearIncomeTotal: { 2019: 24000, ... }
+    // yearIncomeTotal: { 2019: 24000, ... } (sum of monthly income per year)
     const yearIncomeTotal = {}
     income.forEach((r) => {
-      yearIncomeTotal[r.year] = (yearIncomeTotal[r.year] || 0) + r.total
+      yearIncomeTotal[r.year] = (yearIncomeTotal[r.year] || 0) + r.income
     })
 
     return {
@@ -102,6 +117,8 @@ export function useData() {
       rowsByYearMonth,
       incomeByYearMonth,
       yearIncomeTotal,
+      typeByYear,
+      subcategoryByYearCategory,
     }
   }, [expenses, income])
 

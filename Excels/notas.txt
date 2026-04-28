@@ -1,0 +1,21 @@
+1.trocar alimentação fora de C para E (antes das Saídas) and ADD 1 column before restaurnts
+2.add column before Restaurants/Alimentação Fora, than add 3 columns before others
+3.trocar cabeçalho
+4.push totals
+5.verificar e Ajustar despesas Others
+
+6.copiar template de fixed expense
+7.ajustar valores
+
+8.opicional? (ajustar saldo tab Saldo)
+
+
+extra: transportar bilhetes de aviao  de nov 2021 para 2022
+
+2019 - ok
+2020 - ok
+2021 - ok
+2022 - 
+2023 -
+2024 -
+2025 -

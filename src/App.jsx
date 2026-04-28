@@ -32,6 +32,8 @@ export default function App() {
     monthlyByYearCategory: data.monthlyByYearCategory || {},
     rowsByYearMonth: data.rowsByYearMonth || {},
     yearIncomeTotal: data.yearIncomeTotal || {},
+    typeByYear: data.typeByYear || {},
+    subcategoryByYearCategory: data.subcategoryByYearCategory || {},
     income: data.income || [],
   }
 

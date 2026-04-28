@@ -14,7 +14,9 @@ CREATE TABLE expenses (
   year        SMALLINT      NOT NULL,
   month       SMALLINT      NOT NULL CHECK (month BETWEEN 1 AND 12),
   day         SMALLINT      NOT NULL CHECK (day BETWEEN 1 AND 31),
+  type        TEXT          NOT NULL DEFAULT 'variable',
   category    TEXT          NOT NULL,
+  subcategory TEXT,
   amount      NUMERIC(10,2) NOT NULL CHECK (amount >= 0),
   description TEXT
 );
@@ -22,15 +24,16 @@ CREATE TABLE expenses (
 CREATE INDEX idx_expenses_year       ON expenses (year);
 CREATE INDEX idx_expenses_year_month ON expenses (year, month);
 CREATE INDEX idx_expenses_category   ON expenses (category);
+CREATE INDEX idx_expenses_type       ON expenses (type);
 
 -- ── Income ────────────────────────────────────────────────
 CREATE TABLE income (
-  id      BIGSERIAL PRIMARY KEY,
-  year    SMALLINT      NOT NULL,
-  month   SMALLINT      NOT NULL CHECK (month BETWEEN 1 AND 12),
-  renda   NUMERIC(10,2) NOT NULL DEFAULT 0,  -- salary
-  algt    NUMERIC(10,2) NOT NULL DEFAULT 0,  -- housing allowance
-  total   NUMERIC(10,2) NOT NULL DEFAULT 0,
+  id             BIGSERIAL PRIMARY KEY,
+  year           SMALLINT      NOT NULL,
+  month          SMALLINT      NOT NULL CHECK (month BETWEEN 1 AND 12),
+  income         NUMERIC(10,2) NOT NULL DEFAULT 0,
+  total_expenses NUMERIC(10,2) NOT NULL DEFAULT 0,
+  profit         NUMERIC(10,2) NOT NULL DEFAULT 0,
   UNIQUE (year, month)
 );
 

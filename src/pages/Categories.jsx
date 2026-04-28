@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis,
-  CartesianGrid, Tooltip, Cell, PieChart, Pie, Legend,
+  CartesianGrid, Tooltip, Cell, PieChart, Pie,
 } from 'recharts'
 import ChartTooltip from '../components/ChartTooltip'
-import { CATEGORIES, CATEGORY_LABELS, CATEGORY_COLORS, fmt, round2 } from '../lib/constants'
+import {
+  CATEGORIES, VARIABLE_CATEGORIES, FIXED_CATEGORIES,
+  CATEGORY_LABELS, CATEGORY_COLORS, SUBCATEGORY_LABELS,
+  fmt, round2,
+} from '../lib/constants'
 
 const RADIAN = Math.PI / 180
 function renderLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent }) {
@@ -19,10 +23,22 @@ function renderLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent }) {
   )
 }
 
-export default function Categories({ years, categoryByYear }) {
-  const [selectedYear, setSelectedYear] = useState(years?.[years.length - 1] ?? 2021)
+const TYPE_FILTERS = [
+  { id: 'all', label: 'All' },
+  { id: 'variable', label: 'Variable' },
+  { id: 'fixed', label: 'Fixed' },
+]
 
-  const data = CATEGORIES.map((cat) => ({
+export default function Categories({ years, categoryByYear, subcategoryByYearCategory }) {
+  const [selectedYear, setSelectedYear] = useState(years?.[years.length - 1] ?? 2021)
+  const [typeFilter, setTypeFilter] = useState('all')
+
+  const visibleCategories =
+    typeFilter === 'variable' ? VARIABLE_CATEGORIES :
+    typeFilter === 'fixed'    ? FIXED_CATEGORIES :
+    CATEGORIES
+
+  const data = visibleCategories.map((cat) => ({
     name: CATEGORY_LABELS[cat],
     cat,
     value: round2(categoryByYear[selectedYear]?.[cat]),
@@ -31,6 +47,18 @@ export default function Categories({ years, categoryByYear }) {
     .sort((a, b) => b.value - a.value)
 
   const total = data.reduce((s, d) => s + d.value, 0)
+
+  // Subcategory breakdown for fixed categories
+  const subcatBreakdown = FIXED_CATEGORIES.filter((cat) => {
+    const subs = subcategoryByYearCategory?.[selectedYear]?.[cat]
+    return subs && Object.keys(subs).length > 0 && (typeFilter === 'all' || typeFilter === 'fixed')
+  }).map((cat) => {
+    const subs = subcategoryByYearCategory[selectedYear][cat]
+    const entries = Object.entries(subs)
+      .map(([sub, val]) => ({ sub, label: SUBCATEGORY_LABELS[sub] ?? sub, value: round2(val) }))
+      .sort((a, b) => b.value - a.value)
+    return { cat, entries }
+  })
 
   return (
     <div className="page">
@@ -48,9 +76,21 @@ export default function Categories({ years, categoryByYear }) {
         ))}
       </div>
 
+      <div className="pill-group" style={{ marginTop: 8 }}>
+        {TYPE_FILTERS.map((f) => (
+          <button
+            key={f.id}
+            className={`pill ${typeFilter === f.id ? 'pill-active' : ''}`}
+            onClick={() => setTypeFilter(f.id)}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
       <div className="card">
         <h2 className="card-title">Total por Categoria — {selectedYear}</h2>
-        <ResponsiveContainer width="100%" height={280}>
+        <ResponsiveContainer width="100%" height={Math.max(180, data.length * 36)}>
           <BarChart
             data={data}
             layout="vertical"
@@ -58,7 +98,7 @@ export default function Categories({ years, categoryByYear }) {
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" horizontal={false} />
             <XAxis type="number" tickFormatter={(v) => `€${v}`} tick={{ fontSize: 11 }} />
-            <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={88} />
+            <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={96} />
             <Tooltip content={<ChartTooltip />} />
             <Bar dataKey="value" name="Total" radius={[0, 3, 3, 0]}>
               {data.map((d) => (
@@ -98,7 +138,7 @@ export default function Categories({ years, categoryByYear }) {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Categoria</th>
+                <th>Category</th>
                 <th className="right">Total</th>
                 <th className="right">%</th>
               </tr>
@@ -130,6 +170,49 @@ export default function Categories({ years, categoryByYear }) {
           </table>
         </div>
       </div>
+
+      {subcatBreakdown.map(({ cat, entries }) => (
+        <div key={cat} className="card">
+          <h2 className="card-title" style={{ color: CATEGORY_COLORS[cat] }}>
+            {CATEGORY_LABELS[cat]} — Subcategories
+          </h2>
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Subcategory</th>
+                <th className="right">Total</th>
+                <th className="right">%</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.map((e) => {
+                const catTotal = entries.reduce((s, x) => s + x.value, 0)
+                return (
+                  <tr key={e.sub}>
+                    <td>
+                      <span
+                        className="cat-badge"
+                        style={{ background: CATEGORY_COLORS[cat] + '33', color: CATEGORY_COLORS[cat] }}
+                      >
+                        {e.label}
+                      </span>
+                    </td>
+                    <td className="right mono">{fmt(e.value)}</td>
+                    <td className="right muted">
+                      {catTotal > 0 ? ((e.value / catTotal) * 100).toFixed(1) : 0}%
+                    </td>
+                  </tr>
+                )
+              })}
+              <tr className="table-total">
+                <td>Total</td>
+                <td className="right mono">{fmt(entries.reduce((s, e) => s + e.value, 0))}</td>
+                <td className="right">100%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      ))}
     </div>
   )
 }

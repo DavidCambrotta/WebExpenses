@@ -2,11 +2,10 @@ import {
   ResponsiveContainer, LineChart, Line, BarChart, Bar,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts'
-import StatCard from '../components/StatCard'
 import ChartTooltip from '../components/ChartTooltip'
 import { MONTH_NAMES, YEAR_COLORS, CATEGORIES, CATEGORY_LABELS, CATEGORY_COLORS, fmt, round2 } from '../lib/constants'
 
-export default function Overview({ years, yearTotals, monthlyTotals, categoryByYear, yearIncomeTotal }) {
+export default function Overview({ years, yearTotals, monthlyTotals, categoryByYear, yearIncomeTotal, typeByYear }) {
   // Line chart: monthly totals per year
   const lineData = MONTH_NAMES.map((name, i) => {
     const month = i + 1
@@ -36,13 +35,13 @@ export default function Overview({ years, yearTotals, monthlyTotals, categoryByY
 
       <div className="stat-grid">
         {years.map((y) => (
-          <StatCard
-            key={y}
-            label={`Total ${y}`}
-            value={fmt(yearTotals[y])}
-            sub={yearIncomeTotal[y] ? `Renda: ${fmt(yearIncomeTotal[y])}` : undefined}
-            accent={YEAR_COLORS[y]}
-          />
+          <div key={y} className="stat-card" style={{ borderTop: `3px solid ${YEAR_COLORS[y]}` }}>
+            <p className="stat-label">Total {y}</p>
+            <p className="stat-value">{fmt(yearTotals[y])}</p>
+            <p className="stat-sub">Variable: {fmt(typeByYear[y]?.variable)}</p>
+            <p className="stat-sub">Fixed: {fmt(typeByYear[y]?.fixed)}</p>
+            {yearIncomeTotal[y] ? <p className="stat-sub">Income: {fmt(yearIncomeTotal[y])}</p> : null}
+          </div>
         ))}
       </div>
 
