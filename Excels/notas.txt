@@ -6,8 +6,9 @@
 
 6.copiar template de fixed expense
 7.ajustar valores
+ajustar formulas totais e somas por mes
 
-8.opicional? (ajustar saldo tab Saldo)
+8.ajustar sheet tab Saldo
 
 
 extra: transportar bilhetes de aviao  de nov 2021 para 2022
@@ -15,7 +16,8 @@ extra: transportar bilhetes de aviao  de nov 2021 para 2022
 2019 - ok
 2020 - ok
 2021 - ok
-2022 - 
-2023 -
+
+2022 - ok
+2023 - ok
 2024 -
 2025 -

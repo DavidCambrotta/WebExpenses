@@ -1,6 +1,6 @@
 export const VARIABLE_CATEGORIES = [
   'groceries', 'fuel', 'transport', 'health', 'restaurants',
-  'party', 'vacations', 'cloths', 'tech', 'others',
+  'party', 'vacations', 'cloths', 'tech', 'car', 'others',
 ]
 
 export const FIXED_CATEGORIES = ['home', 'subscriptions']
@@ -17,6 +17,7 @@ export const CATEGORY_COLORS = {
   vacations:     '#F59E0B',
   cloths:        '#EC4899',
   tech:          '#8B5CF6',
+  car:           '#F97316',
   others:        '#C9B8FF',
   home:          '#6366F1',
   subscriptions: '#10B981',
@@ -32,6 +33,7 @@ export const CATEGORY_LABELS = {
   vacations:     'Vacations',
   cloths:        'Clothing',
   tech:          'Tech',
+  car:           'Car',
   others:        'Others',
   home:          'Home',
   subscriptions: 'Subscriptions',

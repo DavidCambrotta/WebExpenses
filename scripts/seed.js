@@ -1,5 +1,5 @@
 /**
- * Seed script — reads Excels/expenses_v2.csv and Excels/income_v2.csv,
+ * Seed script — reads Excels/expenses_v3.csv and Excels/income_v3.csv,
  * clears existing data, and inserts fresh rows into Supabase.
  *
  * Run from project root:
@@ -48,11 +48,11 @@ function parseCSV(filePath) {
 }
 
 async function seed() {
-  const expensesPath = path.join(__dirname, '../Excels/expenses_v2.csv')
-  const incomePath   = path.join(__dirname, '../Excels/income_v2.csv')
+  const expensesPath = path.join(__dirname, '../Excels/expenses_v3.csv')
+  const incomePath   = path.join(__dirname, '../Excels/income_v3.csv')
 
   // ── Expenses ──
-  console.log('Reading expenses_v2.csv…')
+  console.log('Reading expenses_v3.csv…')
   const rawExpenses = parseCSV(expensesPath)
   const expenseRows = rawExpenses.map((r) => ({
     date:        r.date,
@@ -81,7 +81,7 @@ async function seed() {
   console.log('  expenses done.               ')
 
   // ── Income ──
-  console.log('Reading income_v2.csv…')
+  console.log('Reading income_v3.csv…')
   const rawIncome = parseCSV(incomePath)
   const incomeRows = rawIncome.map((r) => ({
     year:           parseInt(r.year),
