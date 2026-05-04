@@ -31,7 +31,7 @@ export default function Overview({ years, yearTotals, monthlyTotals, categoryByY
 
   return (
     <div className="page">
-      <h1 className="page-title">Visão Geral</h1>
+      <h1 className="page-title">Overview</h1>
 
       <div className="stat-grid">
         {years.map((y) => (
@@ -46,7 +46,7 @@ export default function Overview({ years, yearTotals, monthlyTotals, categoryByY
       </div>
 
       <div className="card">
-        <h2 className="card-title">Despesas Mensais por Ano</h2>
+        <h2 className="card-title">Monthly Expenses by Year</h2>
         <ResponsiveContainer width="100%" height={280}>
           <LineChart data={lineData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -71,7 +71,7 @@ export default function Overview({ years, yearTotals, monthlyTotals, categoryByY
       </div>
 
       <div className="card">
-        <h2 className="card-title">Total por Categoria e Ano</h2>
+        <h2 className="card-title">Total by Category and Year</h2>
         <ResponsiveContainer width="100%" height={320}>
           <BarChart data={catData} margin={{ top: 5, right: 10, left: 0, bottom: 40 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />

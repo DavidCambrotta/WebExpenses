@@ -34,7 +34,7 @@ export default function Monthly({ years, monthlyByYearCategory, rowsByYearMonth 
 
   return (
     <div className="page">
-      <h1 className="page-title">Detalhe Mensal</h1>
+      <h1 className="page-title">Monthly Detail</h1>
 
       <div className="pill-group">
         {years.map((y) => (
@@ -49,8 +49,8 @@ export default function Monthly({ years, monthlyByYearCategory, rowsByYearMonth 
       </div>
 
       <div className="card">
-        <h2 className="card-title">Despesas por Mês — {selectedYear}</h2>
-        <p className="card-hint">Clique em uma barra para ver as transações do mês</p>
+        <h2 className="card-title">Expenses by Month — {selectedYear}</h2>
+        <p className="card-hint">Click a bar to view transactions for that month</p>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
             data={barData}
@@ -86,7 +86,7 @@ export default function Monthly({ years, monthlyByYearCategory, rowsByYearMonth 
             <button className="close-btn" onClick={() => setSelectedMonth(null)}>×</button>
           </div>
           {transactions.length === 0 ? (
-            <p className="empty-text">Nenhuma transação neste mês.</p>
+            <p className="empty-text">No transactions for this month.</p>
           ) : (
             <div className="table-wrap">
               <table className="data-table">

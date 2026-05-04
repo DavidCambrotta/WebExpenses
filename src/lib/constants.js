@@ -47,12 +47,16 @@ export const SUBCATEGORY_LABELS = {
   icloud:    'iCloud',
 }
 
-export const MONTH_NAMES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+export const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 export const YEAR_COLORS = {
-  2019: '#6366F1',
-  2020: '#F59E0B',
-  2021: '#10B981',
+  2019: '#6366f1',
+  2020: '#f59e0b',
+  2021: '#10b981',
+  2022: '#3b82f6',
+  2023: '#ef4444',
+  2024: '#8b5cf6',
+  2025: '#f97316',
 }
 
 export const fmt = (value) =>

@@ -62,7 +62,7 @@ export default function Categories({ years, categoryByYear, subcategoryByYearCat
 
   return (
     <div className="page">
-      <h1 className="page-title">Categorias</h1>
+      <h1 className="page-title">Categories</h1>
 
       <div className="pill-group">
         {years.map((y) => (
@@ -89,7 +89,7 @@ export default function Categories({ years, categoryByYear, subcategoryByYearCat
       </div>
 
       <div className="card">
-        <h2 className="card-title">Total por Categoria — {selectedYear}</h2>
+        <h2 className="card-title">Total by Category — {selectedYear}</h2>
         <ResponsiveContainer width="100%" height={Math.max(180, data.length * 36)}>
           <BarChart
             data={data}
@@ -111,7 +111,7 @@ export default function Categories({ years, categoryByYear, subcategoryByYearCat
 
       <div className="two-col">
         <div className="card">
-          <h2 className="card-title">Distribuição</h2>
+          <h2 className="card-title">Distribution</h2>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
               <Pie
@@ -134,7 +134,7 @@ export default function Categories({ years, categoryByYear, subcategoryByYearCat
         </div>
 
         <div className="card">
-          <h2 className="card-title">Resumo {selectedYear}</h2>
+          <h2 className="card-title">Summary {selectedYear}</h2>
           <table className="data-table">
             <thead>
               <tr>

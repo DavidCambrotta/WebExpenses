@@ -57,11 +57,11 @@ export default function Compare({ years, categoryByYear, yearTotals, typeByYear 
 
   return (
     <div className="page">
-      <h1 className="page-title">Comparar Anos</h1>
+      <h1 className="page-title">Compare Years</h1>
 
       <div className="compare-selectors">
         <div className="selector-group">
-          <label>Ano A</label>
+          <label>Year A</label>
           <div className="pill-group">
             {years.map((y) => (
               <button
@@ -76,7 +76,7 @@ export default function Compare({ years, categoryByYear, yearTotals, typeByYear 
           </div>
         </div>
         <div className="selector-group">
-          <label>Ano B</label>
+          <label>Year B</label>
           <div className="pill-group">
             {years.map((y) => (
               <button
@@ -114,7 +114,7 @@ export default function Compare({ years, categoryByYear, yearTotals, typeByYear 
           <p className="stat-value">{fmt(totalB)}</p>
         </div>
         <div className="stat-card" style={{ borderTop: `3px solid ${totalDiff > 0 ? '#ef4444' : '#22c55e'}` }}>
-          <p className="stat-label">Variação</p>
+          <p className="stat-label">Change</p>
           <p className="stat-value" style={{ color: totalDiff > 0 ? '#ef4444' : '#22c55e' }}>
             {totalDiff > 0 ? '+' : ''}{fmt(totalDiff)}
           </p>
@@ -127,7 +127,7 @@ export default function Compare({ years, categoryByYear, yearTotals, typeByYear 
       </div>
 
       <div className="card">
-        <h2 className="card-title">Categorias: {yearA} vs {yearB}</h2>
+        <h2 className="card-title">Categories: {yearA} vs {yearB}</h2>
         <ResponsiveContainer width="100%" height={320}>
           <BarChart data={barData} margin={{ top: 5, right: 10, left: 0, bottom: 40 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -148,7 +148,7 @@ export default function Compare({ years, categoryByYear, yearTotals, typeByYear 
       </div>
 
       <div className="card">
-        <h2 className="card-title">Resumo por Categoria</h2>
+        <h2 className="card-title">Summary by Category</h2>
         <div className="table-wrap">
           <table className="data-table">
             <thead>

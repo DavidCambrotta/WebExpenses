@@ -21,7 +21,7 @@ export default function Login() {
     <div className="login-screen">
       <form className="login-card" onSubmit={handleSubmit}>
         <h1 className="login-title">WebExpenses</h1>
-        <p className="login-sub">Inicia sessão para continuar</p>
+        <p className="login-sub">Sign in to continue</p>
 
         {error && <p className="login-error">{error}</p>}
 
@@ -38,7 +38,7 @@ export default function Login() {
         </label>
 
         <label className="login-label">
-          Palavra-passe
+          Password
           <input
             className="login-input"
             type="password"
@@ -50,7 +50,7 @@ export default function Login() {
         </label>
 
         <button className="login-btn" type="submit" disabled={loading}>
-          {loading ? 'A entrar…' : 'Entrar'}
+          {loading ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
     </div>
