@@ -112,12 +112,12 @@ body { background: var(--bg); color: var(--text); font-size: 14px; line-height: 
   .main {
     margin-left: var(--sidebar-w);
     padding-bottom: 24px;
-    max-width: calc(1200px + var(--sidebar-w));
+    width: calc(100% - var(--sidebar-w));
   }
 }
 
 /* ── Page ── */
-.page { padding: 20px 16px; max-width: 900px; }
+.page { padding: 20px 16px; width: 100%; }
 
 @media (min-width: 768px) { .page { padding: 28px 32px; } }
 
@@ -164,10 +164,13 @@ body { background: var(--bg); color: var(--text); font-size: 14px; line-height: 
 /* ── Stat grid ── */
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-bottom: 16px;
 }
+
+@media (min-width: 640px) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .stat-grid { grid-template-columns: repeat(4, 1fr); } }
 
 .stat-card {
   background: var(--surface);
