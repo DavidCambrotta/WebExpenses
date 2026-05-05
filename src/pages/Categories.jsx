@@ -30,7 +30,7 @@ const TYPE_FILTERS = [
 ]
 
 export default function Categories({ years, categoryByYear, subcategoryByYearCategory }) {
-  const [selectedYear, setSelectedYear] = useState(years?.[years.length - 1] ?? 2021)
+  const [selectedYear, setSelectedYear] = useState('all')
   const [typeFilter, setTypeFilter] = useState('all')
 
   const visibleCategories =
@@ -38,10 +38,17 @@ export default function Categories({ years, categoryByYear, subcategoryByYearCat
     typeFilter === 'fixed'    ? FIXED_CATEGORIES :
     CATEGORIES
 
+  const getCatValue = (cat) => {
+    if (selectedYear === 'all') {
+      return round2((years ?? []).reduce((sum, y) => sum + (categoryByYear[y]?.[cat] ?? 0), 0))
+    }
+    return round2(categoryByYear[selectedYear]?.[cat])
+  }
+
   const data = visibleCategories.map((cat) => ({
     name: CATEGORY_LABELS[cat],
     cat,
-    value: round2(categoryByYear[selectedYear]?.[cat]),
+    value: getCatValue(cat),
   }))
     .filter((d) => d.value > 0)
     .sort((a, b) => b.value - a.value)
@@ -50,11 +57,28 @@ export default function Categories({ years, categoryByYear, subcategoryByYearCat
 
   // Subcategory breakdown for fixed categories
   const subcatBreakdown = FIXED_CATEGORIES.filter((cat) => {
+    if (typeFilter !== 'all' && typeFilter !== 'fixed') return false
+    if (selectedYear === 'all') {
+      return (years ?? []).some((y) => {
+        const subs = subcategoryByYearCategory?.[y]?.[cat]
+        return subs && Object.keys(subs).length > 0
+      })
+    }
     const subs = subcategoryByYearCategory?.[selectedYear]?.[cat]
-    return subs && Object.keys(subs).length > 0 && (typeFilter === 'all' || typeFilter === 'fixed')
+    return subs && Object.keys(subs).length > 0
   }).map((cat) => {
-    const subs = subcategoryByYearCategory[selectedYear][cat]
-    const entries = Object.entries(subs)
+    let subMap = {}
+    if (selectedYear === 'all') {
+      for (const y of (years ?? [])) {
+        const subs = subcategoryByYearCategory?.[y]?.[cat] ?? {}
+        for (const [sub, val] of Object.entries(subs)) {
+          subMap[sub] = (subMap[sub] ?? 0) + val
+        }
+      }
+    } else {
+      subMap = subcategoryByYearCategory[selectedYear][cat]
+    }
+    const entries = Object.entries(subMap)
       .map(([sub, val]) => ({ sub, label: SUBCATEGORY_LABELS[sub] ?? sub, value: round2(val) }))
       .sort((a, b) => b.value - a.value)
     return { cat, entries }
@@ -74,6 +98,12 @@ export default function Categories({ years, categoryByYear, subcategoryByYearCat
             {y}
           </button>
         ))}
+        <button
+          className={`pill ${selectedYear === 'all' ? 'pill-active' : ''}`}
+          onClick={() => setSelectedYear('all')}
+        >
+          All Years
+        </button>
       </div>
 
       <div className="pill-group" style={{ marginTop: 8 }}>
@@ -89,7 +119,7 @@ export default function Categories({ years, categoryByYear, subcategoryByYearCat
       </div>
 
       <div className="card">
-        <h2 className="card-title">Total by Category — {selectedYear}</h2>
+        <h2 className="card-title">Total by Category — {selectedYear === 'all' ? 'All Years' : selectedYear}</h2>
         <ResponsiveContainer width="100%" height={Math.max(180, data.length * 36)}>
           <BarChart
             data={data}
@@ -134,7 +164,7 @@ export default function Categories({ years, categoryByYear, subcategoryByYearCat
         </div>
 
         <div className="card">
-          <h2 className="card-title">Summary {selectedYear}</h2>
+          <h2 className="card-title">Summary {selectedYear === 'all' ? 'All Years' : selectedYear}</h2>
           <table className="data-table">
             <thead>
               <tr>
