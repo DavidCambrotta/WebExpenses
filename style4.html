@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style 4 — Modern Dark</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #111827; color: #f9fafb; display: flex; height: 100vh; overflow: hidden; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 220px; min-width: 220px;
+    background: #0d1117; border-right: 1px solid #1f2937;
+    display: flex; flex-direction: column; padding: 24px 0;
+  }
+  .logo {
+    padding: 0 20px 28px;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.01em; color: #f9fafb;
+  }
+  .logo-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #10b981; margin-right: 8px; vertical-align: middle; }
+  .logo-sub { font-size: 10px; color: #4b5563; margin-top: 3px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .nav-group-label { font-size: 10px; color: #374151; letter-spacing: 0.1em; text-transform: uppercase; padding: 12px 20px 6px; font-weight: 600; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 20px; font-size: 13px; color: #6b7280;
+    cursor: pointer; border-left: 2px solid transparent;
+    transition: all 0.1s;
+  }
+  .nav-item:hover { color: #d1d5db; background: rgba(255,255,255,0.03); }
+  .nav-item.active { color: #10b981; border-left-color: #10b981; background: rgba(16,185,129,0.06); font-weight: 500; }
+  .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .nav-spacer { flex: 1; }
+  .nav-divider { height: 1px; background: #1f2937; margin: 12px 0; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-left: auto; box-shadow: 0 0 6px #10b981; }
+
+  /* Main */
+  .main { flex: 1; overflow-y: auto; padding: 32px 36px; }
+
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  .page-title { font-size: 20px; font-weight: 700; color: #f9fafb; letter-spacing: -0.02em; }
+  .page-meta { font-size: 11px; color: #4b5563; font-family: 'Courier New', monospace; }
+  .badge-green { display: inline-flex; align-items: center; gap: 5px; background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 600; }
+  .badge-green::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
+
+  /* Stat grid */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat-card {
+    background: #1f2937; border: 1px solid #374151; border-radius: 8px; padding: 18px 20px;
+  }
+  .stat-label { font-size: 10px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+  .stat-value { font-size: 22px; font-weight: 700; color: #f9fafb; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; margin-bottom: 10px; font-family: 'Courier New', monospace; }
+  .stat-rows { border-top: 1px solid #374151; padding-top: 10px; margin-top: 2px; }
+  .stat-row { display: flex; justify-content: space-between; font-size: 11px; color: #6b7280; line-height: 1.9; }
+  .stat-row span { color: #9ca3af; font-family: 'Courier New', monospace; font-variant-numeric: tabular-nums; }
+  .stat-income { font-size: 11px; color: #10b981; display: flex; justify-content: space-between; margin-top: 2px; }
+  .stat-income span { font-family: 'Courier New', monospace; }
+
+  /* Cards */
+  .card { background: #1f2937; border: 1px solid #374151; border-radius: 8px; padding: 22px 24px; margin-bottom: 16px; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .card-title { font-size: 13px; font-weight: 600; color: #d1d5db; letter-spacing: 0.01em; }
+  .card-actions { display: flex; gap: 6px; }
+  .chip { font-size: 10px; background: #111827; border: 1px solid #374151; color: #6b7280; padding: 3px 9px; border-radius: 4px; cursor: pointer; font-weight: 500; }
+  .chip.active { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.08); }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="logo">
+    <span class="logo-dot"></span>WebExpenses
+    <div class="logo-sub">Finance · v2.5</div>
+  </div>
+
+  <div class="nav-group-label">Navigation</div>
+
+  <div class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Overview
+    <div class="status-dot"></div>
+  </div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Monthly Detail
+  </div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>
+    Categories
+  </div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="4"/><path d="M6 10l6-6 6 6"/><path d="M6 20h12"/></svg>
+    Compare Years
+  </div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    Income &amp; Profit
+  </div>
+
+  <div class="nav-spacer"></div>
+  <div class="nav-divider"></div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    Logout
+  </div>
+</nav>
+
+<main class="main">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Overview</h1>
+      <p class="page-meta" style="margin-top:4px">last updated · 2025-05-05 · 7 years of data</p>
+    </div>
+    <span class="badge-green">Live</span>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card" style="border-top:2px solid #6366f1">
+      <div class="stat-label">2022 <span style="color:#6366f1;font-size:9px">▲ +12%</span></div>
+      <div class="stat-value">€13,290</div>
+      <div class="stat-rows">
+        <div class="stat-row">Variable <span>€9,710</span></div>
+        <div class="stat-row">Fixed <span>€3,580</span></div>
+        <div class="stat-income">Income <span>€19,200</span></div>
+      </div>
+    </div>
+    <div class="stat-card" style="border-top:2px solid #f59e0b">
+      <div class="stat-label">2023 <span style="color:#f59e0b;font-size:9px">▲ +10%</span></div>
+      <div class="stat-value">€14,560</div>
+      <div class="stat-rows">
+        <div class="stat-row">Variable <span>€10,340</span></div>
+        <div class="stat-row">Fixed <span>€4,220</span></div>
+        <div class="stat-income">Income <span>€21,600</span></div>
+      </div>
+    </div>
+    <div class="stat-card" style="border-top:2px solid #10b981">
+      <div class="stat-label">2024 <span style="color:#10b981;font-size:9px">▲ +4%</span></div>
+      <div class="stat-value">€15,120</div>
+      <div class="stat-rows">
+        <div class="stat-row">Variable <span>€10,900</span></div>
+        <div class="stat-row">Fixed <span>€4,220</span></div>
+        <div class="stat-income">Income <span>€23,400</span></div>
+      </div>
+    </div>
+    <div class="stat-card" style="border-top:2px solid #f97316">
+      <div class="stat-label">2025 <span style="color:#6b7280;font-size:9px">partial</span></div>
+      <div class="stat-value">€8,440</div>
+      <div class="stat-rows">
+        <div class="stat-row">Variable <span>€5,980</span></div>
+        <div class="stat-row">Fixed <span>€2,460</span></div>
+        <div class="stat-income">Income <span>€13,200</span></div>
+      </div>
+    </div>
+    <div class="stat-card" style="border-top:2px solid #4b5563">
+      <div class="stat-label">All Years</div>
+      <div class="stat-value">€63,250</div>
+      <div class="stat-rows">
+        <div class="stat-row">Variable <span>€45,550</span></div>
+        <div class="stat-row">Fixed <span>€17,700</span></div>
+        <div class="stat-income">Income <span>€94,800</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bar chart -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Monthly Expenses by Year</span>
+      <div class="card-actions">
+        <span class="chip active">Grouped</span>
+        <span class="chip">Stacked</span>
+        <span class="chip">2019–2025</span>
+      </div>
+    </div>
+    <svg width="100%" height="240" viewBox="0 0 860 240">
+      <defs>
+        <linearGradient id="gridFade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#374151" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#374151" stop-opacity="0.2"/>
+        </linearGradient>
+      </defs>
+      <line x1="54" y1="20"  x2="845" y2="20"  stroke="#374151" stroke-width="1" stroke-dasharray="3 4"/>
+      <line x1="54" y1="65"  x2="845" y2="65"  stroke="#374151" stroke-width="1" stroke-dasharray="3 4"/>
+      <line x1="54" y1="110" x2="845" y2="110" stroke="#374151" stroke-width="1" stroke-dasharray="3 4"/>
+      <line x1="54" y1="155" x2="845" y2="155" stroke="#374151" stroke-width="1" stroke-dasharray="3 4"/>
+      <line x1="54" y1="192" x2="845" y2="192" stroke="#374151" stroke-width="1"/>
+
+      <text x="48" y="24"  fill="#4b5563" font-size="10" text-anchor="end" font-family="'Courier New',monospace">2000</text>
+      <text x="48" y="69"  fill="#4b5563" font-size="10" text-anchor="end" font-family="'Courier New',monospace">1500</text>
+      <text x="48" y="114" fill="#4b5563" font-size="10" text-anchor="end" font-family="'Courier New',monospace">1000</text>
+      <text x="48" y="159" fill="#4b5563" font-size="10" text-anchor="end" font-family="'Courier New',monospace">500</text>
+
+      <!-- Jan -->
+      <text x="92" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Jan</text>
+      <rect x="62"  y="108" width="9" height="84"  fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="73"  y="92"  width="9" height="100" fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="84"  y="100" width="9" height="92"  fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="95"  y="82"  width="9" height="110" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="106" y="125" width="9" height="67"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Feb -->
+      <text x="158" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Feb</text>
+      <rect x="128" y="122" width="9" height="70"  fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="139" y="108" width="9" height="84"  fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="150" y="115" width="9" height="77"  fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="161" y="98"  width="9" height="94"  fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="172" y="138" width="9" height="54"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Mar -->
+      <text x="224" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Mar</text>
+      <rect x="194" y="95"  width="9" height="97"  fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="205" y="78"  width="9" height="114" fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="216" y="86"  width="9" height="106" fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="227" y="66"  width="9" height="126" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="238" y="112" width="9" height="80"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Apr -->
+      <text x="290" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Apr</text>
+      <rect x="260" y="108" width="9" height="84"  fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="271" y="90"  width="9" height="102" fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="282" y="98"  width="9" height="94"  fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="293" y="80"  width="9" height="112" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="304" y="122" width="9" height="70"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- May -->
+      <text x="356" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">May</text>
+      <rect x="326" y="98"  width="9" height="94"  fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="337" y="80"  width="9" height="112" fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="348" y="88"  width="9" height="104" fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="359" y="68"  width="9" height="124" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="370" y="115" width="9" height="77"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Jun -->
+      <text x="422" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Jun</text>
+      <rect x="392" y="80"  width="9" height="112" fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="403" y="62"  width="9" height="130" fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="414" y="70"  width="9" height="122" fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="425" y="48"  width="9" height="144" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="436" y="98"  width="9" height="94"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Jul -->
+      <text x="488" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Jul</text>
+      <rect x="458" y="105" width="9" height="87"  fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="469" y="88"  width="9" height="104" fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="480" y="95"  width="9" height="97"  fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="491" y="75"  width="9" height="117" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="502" y="118" width="9" height="74"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Aug -->
+      <text x="554" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Aug</text>
+      <rect x="524" y="72"  width="9" height="120" fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="535" y="55"  width="9" height="137" fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="546" y="63"  width="9" height="129" fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="557" y="42"  width="9" height="150" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="568" y="88"  width="9" height="104" fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Sep -->
+      <text x="620" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Sep</text>
+      <rect x="590" y="112" width="9" height="80"  fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="601" y="95"  width="9" height="97"  fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="612" y="102" width="9" height="90"  fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="623" y="84"  width="9" height="108" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="634" y="126" width="9" height="66"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Oct -->
+      <text x="686" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Oct</text>
+      <rect x="656" y="102" width="9" height="90"  fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="667" y="85"  width="9" height="107" fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="678" y="93"  width="9" height="99"  fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="689" y="74"  width="9" height="118" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="700" y="115" width="9" height="77"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Nov -->
+      <text x="752" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Nov</text>
+      <rect x="722" y="110" width="9" height="82"  fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="733" y="93"  width="9" height="99"  fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="744" y="100" width="9" height="92"  fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="755" y="82"  width="9" height="110" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="766" y="122" width="9" height="70"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+      <!-- Dec -->
+      <text x="818" y="208" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Dec</text>
+      <rect x="788" y="82"  width="9" height="110" fill="#6366f1" opacity="0.8" rx="2"/>
+      <rect x="799" y="65"  width="9" height="127" fill="#f59e0b" opacity="0.8" rx="2"/>
+      <rect x="810" y="73"  width="9" height="119" fill="#10b981" opacity="0.9" rx="2"/>
+      <rect x="821" y="53"  width="9" height="139" fill="#f97316" opacity="0.8" rx="2"/>
+      <rect x="832" y="100" width="9" height="92"  fill="#8b5cf6" opacity="0.8" rx="2"/>
+
+      <!-- Legend -->
+      <rect x="58"  y="222" width="8" height="8" fill="#6366f1" rx="1"/><text x="70"  y="230" fill="#4b5563" font-size="10" font-family="monospace">2021</text>
+      <rect x="110" y="222" width="8" height="8" fill="#f59e0b" rx="1"/><text x="122" y="230" fill="#4b5563" font-size="10" font-family="monospace">2022</text>
+      <rect x="162" y="222" width="8" height="8" fill="#10b981" rx="1"/><text x="174" y="230" fill="#4b5563" font-size="10" font-family="monospace">2023</text>
+      <rect x="214" y="222" width="8" height="8" fill="#f97316" rx="1"/><text x="226" y="230" fill="#4b5563" font-size="10" font-family="monospace">2024</text>
+      <rect x="266" y="222" width="8" height="8" fill="#8b5cf6" rx="1"/><text x="278" y="230" fill="#4b5563" font-size="10" font-family="monospace">2025</text>
+    </svg>
+  </div>
+
+  <!-- Line chart -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Monthly Expenses — Line View</span>
+      <div class="card-actions">
+        <span class="chip active">All Years</span>
+        <span class="chip">2024</span>
+        <span class="chip">2025</span>
+      </div>
+    </div>
+    <svg width="100%" height="210" viewBox="0 0 860 210">
+      <line x1="54" y1="20"  x2="845" y2="20"  stroke="#374151" stroke-width="1" stroke-dasharray="3 4"/>
+      <line x1="54" y1="65"  x2="845" y2="65"  stroke="#374151" stroke-width="1" stroke-dasharray="3 4"/>
+      <line x1="54" y1="110" x2="845" y2="110" stroke="#374151" stroke-width="1" stroke-dasharray="3 4"/>
+      <line x1="54" y1="155" x2="845" y2="155" stroke="#374151" stroke-width="1" stroke-dasharray="3 4"/>
+      <line x1="54" y1="185" x2="845" y2="185" stroke="#374151" stroke-width="1"/>
+
+      <text x="48" y="24"  fill="#4b5563" font-size="10" text-anchor="end" font-family="monospace">2000</text>
+      <text x="48" y="69"  fill="#4b5563" font-size="10" text-anchor="end" font-family="monospace">1500</text>
+      <text x="48" y="114" fill="#4b5563" font-size="10" text-anchor="end" font-family="monospace">1000</text>
+      <text x="48" y="159" fill="#4b5563" font-size="10" text-anchor="end" font-family="monospace">500</text>
+
+      <!-- Month labels -->
+      <text x="90"  y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Jan</text>
+      <text x="156" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Feb</text>
+      <text x="222" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Mar</text>
+      <text x="288" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Apr</text>
+      <text x="354" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">May</text>
+      <text x="420" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Jun</text>
+      <text x="486" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Jul</text>
+      <text x="552" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Aug</text>
+      <text x="618" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Sep</text>
+      <text x="684" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Oct</text>
+      <text x="750" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Nov</text>
+      <text x="816" y="200" fill="#4b5563" font-size="10" text-anchor="middle" font-family="monospace">Dec</text>
+
+      <polyline fill="none" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+        points="90,115 156,128 222,98 288,112 354,102 420,80 486,108 552,76 618,115 684,106 750,112 816,86"/>
+      <polyline fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+        points="90,100 156,112 222,84 288,96 354,86 420,65 486,90 552,60 618,98 684,90 750,96 816,70"/>
+      <polyline fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        points="90,106 156,118 222,90 288,104 354,92 420,72 486,96 552,66 618,106 684,96 750,102 816,76"/>
+      <polyline fill="none" stroke="#f97316" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+        points="90,88 156,100 222,70 288,84 354,72 420,50 486,76 552,45 618,88 684,76 750,82 816,55"/>
+      <polyline fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 3"
+        points="90,125 156,138 222,112 288,124 354,114 420,96 486,118 552,90 618,125 684,116 750,122 816,100"/>
+    </svg>
+  </div>
+</main>
+
+</body>
+</html>
