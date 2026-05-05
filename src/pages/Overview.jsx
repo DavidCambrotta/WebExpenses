@@ -43,6 +43,13 @@ export default function Overview({ years, yearTotals, monthlyTotals, categoryByY
             {yearIncomeTotal[y] ? <p className="stat-sub">Income: {fmt(yearIncomeTotal[y])}</p> : null}
           </div>
         ))}
+        <div className="stat-card" style={{ borderTop: '3px solid #6b7280' }}>
+          <p className="stat-label">All Years</p>
+          <p className="stat-value">{fmt(years.reduce((s, y) => s + (yearTotals[y] || 0), 0))}</p>
+          <p className="stat-sub">Variable: {fmt(years.reduce((s, y) => s + (typeByYear[y]?.variable || 0), 0))}</p>
+          <p className="stat-sub">Fixed: {fmt(years.reduce((s, y) => s + (typeByYear[y]?.fixed || 0), 0))}</p>
+          <p className="stat-sub">Income: {fmt(years.reduce((s, y) => s + (yearIncomeTotal[y] || 0), 0))}</p>
+        </div>
       </div>
 
       <div className="card">
