@@ -53,6 +53,25 @@ export default function Income({ years, yearTotals, yearIncomeTotal, monthlyTota
             </p>
           </div>
         ))}
+        {(() => {
+          const totalIncome = round2(yearData.reduce((s, d) => s + d.income, 0))
+          const totalExpenses = round2(yearData.reduce((s, d) => s + d.expenses, 0))
+          const totalProfit = round2(totalIncome - totalExpenses)
+          const avgProfitPct = round2(yearData.reduce((s, d) => s + d.profitPct, 0) / (yearData.length || 1))
+          return (
+            <div className="stat-card" style={{ borderTop: '3px solid #6b7280' }}>
+              <p className="stat-label">All Years</p>
+              <p className="stat-value">{fmt(totalIncome)}</p>
+              <p className="stat-sub">Expenses: {fmt(totalExpenses)}</p>
+              <p
+                className="stat-sub"
+                style={{ color: totalProfit >= 0 ? '#10b981' : '#ef4444', fontWeight: 600 }}
+              >
+                Profit: {fmt(totalProfit)} (avg {avgProfitPct >= 0 ? '+' : ''}{avgProfitPct}%)
+              </p>
+            </div>
+          )
+        })()}
       </div>
 
       <div className="card">
