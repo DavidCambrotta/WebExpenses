@@ -6,6 +6,7 @@ import Overview from './pages/Overview'
 import Monthly from './pages/Monthly'
 import Categories from './pages/Categories'
 import Compare from './pages/Compare'
+import Income from './pages/Income'
 import { useData } from './hooks/useData'
 import { useAuth } from './hooks/useAuth'
 
@@ -32,6 +33,7 @@ export default function App() {
     monthlyByYearCategory: data.monthlyByYearCategory || {},
     rowsByYearMonth: data.rowsByYearMonth || {},
     yearIncomeTotal: data.yearIncomeTotal || {},
+    incomeByYearMonth: data.incomeByYearMonth || {},
     typeByYear: data.typeByYear || {},
     subcategoryByYearCategory: data.subcategoryByYearCategory || {},
     income: data.income || [],
@@ -45,6 +47,7 @@ export default function App() {
         {page === 'monthly' && <Monthly {...pageProps} />}
         {page === 'categories' && <Categories {...pageProps} />}
         {page === 'compare' && <Compare {...pageProps} />}
+        {page === 'income' && <Income {...pageProps} />}
       </main>
     </div>
   )
